@@ -1,0 +1,43 @@
+<odoo>
+    <record id="view_external_order_line_tree" model="ir.ui.view">
+        <field name="name">external.order.line.tree</field>
+        <field name="model">external.order.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="external_sku"/>
+                <field name="external_name"/>
+                 <field name="images"/>
+                <field name="quantity"/>
+                <field name="price_unit"/>
+                <field name="product_id"/>
+                <field name="confirmed"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_external_order_line_form" model="ir.ui.view">
+        <field name="name">external.order.line.form</field>
+        <field name="model">external.order.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="external_sku"/>
+                        <field name="external_name"/>
+                        <field name="images"/>
+                        <field name="quantity"/>
+                        <field name="price_unit"/>
+                        <field name="product_id"/>
+                        <field name="confirmed"/>
+                    </group>
+                    <footer>
+                        <button name="action_confirm_product" type="object"
+                                string="确认匹配" class="btn-primary"
+                                attrs="{'invisible': [('confirmed','=',True)]}"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
