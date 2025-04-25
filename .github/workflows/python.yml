@@ -18,7 +18,7 @@ on:
       - .github/**
       - docs/**
 jobs:
-  laravel-tests:
+  cicd:
     runs-on: ubuntu-latest
     steps:
     - name: Sync to Server to ERP Server
