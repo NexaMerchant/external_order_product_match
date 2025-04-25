@@ -13,6 +13,7 @@ class ExternalOrderLine(models.Model):
     images = fields.Text('图片')
     product_type = fields.Char('商品类型')
     product_url = fields.Char('商品链接')
+    discount_amount = fields.Float('折扣金额')
 
     product_id = fields.Many2one('product.product', string='匹配商品')
     confirmed = fields.Boolean('已确认', default=False)
