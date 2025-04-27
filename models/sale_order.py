@@ -5,7 +5,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     external_order_line_ids = fields.One2many(
-        'external.order.line', 'sale_order_id', string='External Order Lines'
+        'external.order.line', 'sale_order_id', string='商品'
     )
 
     external_order_line_summary = fields.Text(compute="_compute_external_summary")
@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
                 # 图片展示
                 img_html = ''
                 if line.images:
-                    img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;margin-right:4px;"/>'
+                    img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;"/>'
                 # 商品名、SKU、数量、价格、状态
                 status = "✅" if line.confirmed else "❌"
                 name = line.external_name or ''
@@ -45,7 +45,7 @@ class SaleOrder(models.Model):
                 summary.append(
                     f'<div style="margin-bottom:2px;">'
                     f'{img_html}'
-                    f'<span style="color:#888;">SKU: {sku}</span> <br/>'
+                    f'<span style="color:#888;">SKU: {sku}<br/>'
                     f'数量: {qty} <br/>'
                     f'价格：{price:.2f}<br/>'
                     f'配对: {product} <br/>'

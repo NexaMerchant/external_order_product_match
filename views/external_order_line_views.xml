@@ -6,9 +6,12 @@
             <tree>
                 <field name="external_sku"/>
                 <field name="external_name"/>
-                 <field name="images"/>
+                 <field name="images" widget="image"/>
                 <field name="quantity"/>
                 <field name="price_unit"/>
+                <field name="product_type"/>
+                <field name="product_url"/>
+                <field name="discount_amount"/>
                 <field name="product_id"/>
                 <field name="confirmed"/>
             </tree>
@@ -25,9 +28,12 @@
                         <field name="sale_order_id" readonly="1"/>
                         <field name="external_sku"/>
                         <field name="external_name"/>
-                        <field name="images"/>
+                        <field name="images" widget="image" class="oe_avatar" options="{'preview_image': 'images'}"/>
                         <field name="quantity"/>
                         <field name="price_unit"/>
+                        <field name="product_type"/>
+                        <field name="product_url"/>
+                        <field name="discount_amount"/>
                         <field name="product_id"/>
                         <field name="confirmed"/>
                     </group>
@@ -40,4 +46,25 @@
             </form>
         </field>
     </record>
+
+    <!-- 动作：打开 external.order.line 的 tree 视图 -->
+    <record id="action_external_order_line" model="ir.actions.act_window">
+        <field name="name">外部订单商品</field>
+        <field name="res_model">external.order.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_external_order_line_tree"/>
+        <field name="help" type="html">
+            <p>在这里可以维护和管理所有外部订单商品。</p>
+        </field>
+    </record>
+
+
+    <menuitem
+        id="menu_external_order_line"
+        name="外部订单商品"
+        action="action_external_order_line"
+        parent="sale.product_menu_catalog"
+        sequence="99"
+    />
+
 </odoo>

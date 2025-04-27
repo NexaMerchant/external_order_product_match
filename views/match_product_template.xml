@@ -28,8 +28,8 @@
                                         //location.reload(); // 刷新页面以显示最新数据
                                         // back to the previous page after 2 seconds
                                         setTimeout(function() {
-                                            window.history.back();
-                                            // 上一个页面刷新
+                                            // redirect to the sale order list page
+                                            window.location.href = "/web#action=sale.action_quotations&amp;model=sale.order&amp;view_type=list&amp;menu_id=124"; // Replace with your desired URL
                                             
                                         }, 2000);
                                     } else {
