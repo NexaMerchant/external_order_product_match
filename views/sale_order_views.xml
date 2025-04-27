@@ -2,10 +2,10 @@
     <record id="view_sale_order_tree_inherit_external" model="ir.ui.view">
         <field name="name">sale.order.tree.inherit.external</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
-            <field name="partner_id" position="after">
-                <field name="external_order_line_ids"/>
+            <field name="name" position="after">
+                <field name="external_order_line_summary" widget="html"/>
             </field>
         </field>
     </record>
@@ -16,7 +16,11 @@
         <field name="arch" type="xml">
             <header position="inside">
                 <button name="action_open_unmatched_lines" string="待确认商品"
-                        type="object" class="btn-secondary"
+                    type="object" class="btn-secondary"
+                    attrs="{'invisible': [('state','!=','draft')]}"/>
+                <!-- 新增批量配对按钮 -->
+                <button name="action_open_match_wizard" string="外部商品配对"
+                        type="object" class="btn-primary"
                         attrs="{'invisible': [('state','!=','draft')]}"/>
             </header>
         </field>
