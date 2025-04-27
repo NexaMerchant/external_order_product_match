@@ -21,7 +21,7 @@ class MatchProductController(http.Controller):
             'search': search,
         })
 
-    @http.route('/do_match_product', type='http', auth='user', methods=['POST'], csrf=False)
+    @http.route('/do_match_product', type='json', auth='user', methods=['POST'], csrf=False)
     def do_match_product(self, order_id=None, external_order_line_id=None, product_id=None, **kwargs):
         order = request.env['sale.order'].sudo().browse(int(order_id))
         external_order_line = request.env['external.order.line'].sudo().browse(int(external_order_line_id))
@@ -56,4 +56,4 @@ class MatchProductController(http.Controller):
         if all(line.confirmed for line in order.order_line):
             order.action_confirm()
 
-        return request.redirect('/web#id=%s&model=sale.order&view_type=form' % order.id)
+        return {'success': True}
