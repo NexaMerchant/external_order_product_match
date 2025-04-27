@@ -67,4 +67,52 @@
         sequence="99"
     />
 
+    <!-- external.sku.mapping tree 视图 -->
+    <record id="view_external_sku_mapping_tree" model="ir.ui.view">
+        <field name="name">external.sku.mapping.tree</field>
+        <field name="model">external.sku.mapping</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="external_sku"/>
+                <field name="product_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- external.sku.mapping form 视图 -->
+    <record id="view_external_sku_mapping_form" model="ir.ui.view">
+        <field name="name">external.sku.mapping.form</field>
+        <field name="model">external.sku.mapping</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="external_sku"/>
+                        <field name="product_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- external.sku.mapping 动作 -->
+    <record id="action_external_sku_mapping" model="ir.actions.act_window">
+        <field name="name">外部SKU映射</field>
+        <field name="res_model">external.sku.mapping</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_external_sku_mapping_tree"/>
+        <field name="help" type="html">
+            <p>在这里可以维护外部SKU与产品的映射关系。</p>
+        </field>
+    </record>
+
+    <!-- external.sku.mapping 菜单 -->
+    <menuitem
+        id="menu_external_sku_mapping"
+        name="外部SKU映射"
+        action="action_external_sku_mapping"
+        parent="sale.product_menu_catalog"
+        sequence="100"
+    />
+
 </odoo>
