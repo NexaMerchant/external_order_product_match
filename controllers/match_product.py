@@ -49,5 +49,11 @@ class MatchProductController(http.Controller):
                 line.product_uom_qty = external_order_line.quantity
                 line.price_unit = external_order_line.price_unit
                 line.image_1920 = external_order_line.images
+                line.name = external_order_line.external_name
+
+        # if the order external_order_line allow to be confirmed, confirm the order
+
+        if all(line.confirmed for line in order.order_line):
+            order.action_confirm()
 
         return request.redirect('/web#id=%s&model=sale.order&view_type=form' % order.id)

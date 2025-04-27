@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
                 # 图片展示
                 img_html = ''
                 if line.images:
-                    img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:32px;width:32px;vertical-align:middle;margin-right:4px;"/>'
+                    img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;margin-right:4px;"/>'
                 # 商品名、SKU、数量、价格、状态
                 status = "✅" if line.confirmed else "❌"
                 name = line.external_name or ''
@@ -38,16 +38,15 @@ class SaleOrder(models.Model):
                 if not line.confirmed:
                     match_link = (
                         f'<a href="/match_product?order_id={order.id}&external_order_line_id={line.id}" '
-                        f'style="color:blue;text-decoration:underline;" target="_blank">配对</a>'
+                        f'style="color:blue;text-decoration:underline;float:left;" target="_blank">配对</a>'
                     )
                 summary.append(
                     f'<div style="margin-bottom:2px;">'
                     f'{img_html}'
-                    f'<span style="font-weight:bold;">{name}</span><br/>' 
                     f'<span style="color:#888;">SKU: {sku}</span> <br/>'
-                    f'<span style="color:#888;">数量: {qty}</span> <br/>'
-                    f'<span style="color:#888;">￥{price:.2f}</span> <br/>'
-                    f'<span style="color:#888;">配对: {product}</span> '
+                    f'数量: {qty} <br/>'
+                    f'价格：{price:.2f}<br/>'
+                    f'配对: {product}</span> '
                     f'{status}'
                     # add matching link
                     f'{match_link}'
