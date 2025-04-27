@@ -36,7 +36,6 @@ class MatchProductController(http.Controller):
         ], limit=1)
         if not external_sku_mapping:
             request.env['external.sku.mapping'].sudo().create({
-                'external_order_line_id': external_order_line.id,
                 'product_id': external_order_line.product_id.id,
                 'external_sku': external_order_line.external_sku,
             })
