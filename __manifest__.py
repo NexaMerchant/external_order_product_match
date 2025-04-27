@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'views/external_order_line_views.xml',
         'views/sale_order_views.xml',
+        'views/match_product_template.xml',
     ],
     'installable': True,
 }
