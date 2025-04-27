@@ -51,18 +51,28 @@ class MatchProductController(http.Controller):
         else:
             external_sku_mapping.product_id = external_order_line.product_id.id
 
-        # 更新订单行的产品
-        for line in order.order_line:
-            if line.product_id == external_order_line.product_id:
-                line.product_id = external_order_line.product_id.id
-                line.product_uom_qty = external_order_line.quantity
-                line.price_unit = external_order_line.price_unit
-                line.image_1920 = external_order_line.images
-                line.name = external_order_line.external_name
+        # 检查商品是否在 order line 中存在
+        # 如果存在，更新数量和单价
+        # 如果不存在，创建新的 order line
+        order_line = request.env['sale.order.line'].sudo().search([
+            ('order_id', '=', order.id),
+            ('product_id', '=', external_order_line.product_id.id),
+        ], limit=1)
+        if not order_line:
+            order_line = request.env['sale.order.line'].sudo().create({
+                'order_id': order.id,
+                'product_id': external_order_line.product_id.id,
+                'product_uom_qty': external_order_line.quantity,
+                'price_unit': external_order_line.price_unit,
+                'name': external_order_line.external_name,
+            })
+        else:
+            order_line.product_uom_qty = external_order_line.quantity
+            order_line.price_unit = external_order_line.price_unit
+            order_line.name = external_order_line.external_name
 
         # if the order external_order_line allow to be confirmed, confirm the order
-
-        if all(line.confirmed for line in order.order_line):
+        if order.external_order_line_ids.filtered(lambda l: l.confirmed):
             order.action_confirm()
 
         # back to the order list view

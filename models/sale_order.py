@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
                 qty = line.quantity or 0
                 price = line.price_unit or 0
                 product = line.product_id.default_code if line.product_id else ''
+                stock_qty = line.product_id.qty_available if line.product_id else 0
                 match_link = ''
                 if not line.confirmed:
                     match_link = (
@@ -47,7 +48,8 @@ class SaleOrder(models.Model):
                     f'<span style="color:#888;">SKU: {sku}</span> <br/>'
                     f'数量: {qty} <br/>'
                     f'价格：{price:.2f}<br/>'
-                    f'配对: {product}</span> '
+                    f'配对: {product} <br/>'
+                    f'库存: {stock_qty}</span> '
                     f'{status}'
                     # add matching link
                     f'{match_link}'
