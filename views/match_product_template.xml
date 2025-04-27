@@ -27,11 +27,11 @@
                                         //alert("配对成功！");
                                         //location.reload(); // 刷新页面以显示最新数据
                                         // back to the previous page after 2 seconds
-                                        <!-- setTimeout(function() {
+                                        setTimeout(function() {
                                             window.history.back();
                                             // 上一个页面刷新
                                             
-                                        }, 2000); -->
+                                        }, 2000);
                                     } else {
                                         alert("配对失败，请重试。");
                                     }
