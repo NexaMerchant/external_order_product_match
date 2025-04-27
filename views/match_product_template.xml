@@ -1,44 +1,48 @@
 <odoo>
     <data>
         <template id="match_product_template">
-            
-            <t t-call="web.html_container">
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script type="text/javascript">
-                $(function(){
-                    $('.btn-batch-confirm').on('click', function(){
-                        // 收集所有未配对的商品ID
-                        var product_id = $('input[name="product_id"]').val();
-
-                        var confirmAll = 0;
-                        if(confirm('是否确认批量配对所有未配对的商品？')){
-                            confirmAll = 1;
-                        }
-
-                        // Ajax 提交
-                        $.ajax({
-                            url: '/do_match_product',
-                            type: 'POST',
-                            data: JSON.stringify({
-                                order_id: $('input[name="order_id"]').val(),
-                                external_order_line_id: $('input[name="external_order_line_id"]').val(),
-                                product_id: product_id,
-                                confirm_all: confirmAll
-                            }),
-                            contentType: 'application/json',
-                            success: function(res){
-                                if(res.success){
-                                    window.location.reload();
-                                }else{
-                                    alert(res.message || '批量配对失败');
+            
+            <t t-call="web.layout">
+                <script>
+                    $(document).ready(function() {
+                        $(".match_products").click(function() {
+                            var product_id = $(this).val();
+                            var external_order_line_id = $(this).closest("form").find("input[name='external_order_line_id']").val();
+                            var order_id = $(this).closest("form").find("input[name='order_id']").val();
+                            
+                            $.ajax({
+                                url: "/do_match_product",
+                                type: "POST",
+                                data: {
+                                    product_id: product_id,
+                                    external_order_line_id: external_order_line_id,
+                                    order_id: order_id
+                                },
+                                success: function(response) {
+                                    if (response.success === true) {
+                                        //alert("配对成功！");
+                                        //location.reload(); // 刷新页面以显示最新数据
+                                        // back to the previous page after 2 seconds
+                                        setTimeout(function() {
+                                            window.history.back();
+                                            // 上一个页面刷新
+                                            
+                                        }, 2000);
+                                    } else {
+                                        alert("配对失败，请重试。");
+                                    }
+                                },
+                                error: function() {
+                                    alert("发生错误，请稍后再试。");
                                 }
-                            }
+                            });
                         });
                     });
-                });
-            </script>
+                </script>
                 <div class="container mt-4">
                     <div class="card shadow-sm">
                         <div class="card-header bg-primary text-white">
@@ -86,7 +90,7 @@
                                                 <td><t t-esc="product.display_name"/></td>
                                                 <td><span class="badge bg-secondary"><t t-esc="product.default_code"/></span></td>
                                                 <td>
-                                                    <button type="button" name="product_id" t-att-value="product.id" class="btn btn-success btn-sm btn-batch-confirm">配对</button>
+                                                    <button type="button" name="product_id" t-att-value="product.id" class="btn btn-success btn-sm match_products">配对</button>
                                                 </td>
                                             </tr>
                                         </t>

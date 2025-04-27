@@ -17,5 +17,10 @@
         'views/sale_order_views.xml',
         'views/match_product_template.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'external_order_product_match/static/src/js/external_order_match.js',
+        ],
+    }, 
     'installable': True,
 }

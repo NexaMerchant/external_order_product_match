@@ -1,5 +1,7 @@
 from odoo import http
 from odoo.http import request
+import json
+
 
 class MatchProductController(http.Controller):
     @http.route('/match_product', type='http', auth='user')
@@ -21,10 +23,17 @@ class MatchProductController(http.Controller):
             'search': search,
         })
 
-    @http.route('/do_match_product', type='json', auth='user', methods=['POST'], csrf=False)
+    @http.route('/do_match_product', type='http', auth='user', method=['post'], csrf=False)
     def do_match_product(self, order_id=None, external_order_line_id=None, product_id=None, **kwargs):
+        print("do_match_product")
+        print("order_id:", order_id)
+        print("product_id:", product_id)
+        print("external_order_line_id:", external_order_line_id)
         order = request.env['sale.order'].sudo().browse(int(order_id))
         external_order_line = request.env['external.order.line'].sudo().browse(int(external_order_line_id))
+        print("order_id:", order_id)
+        print("external_order_line_id:", external_order_line_id)
+        print("product_id:", product_id)
         if product_id:
             product = request.env['product.product'].sudo().browse(int(product_id))
             external_order_line.product_id = product.id
@@ -56,4 +65,9 @@ class MatchProductController(http.Controller):
         if all(line.confirmed for line in order.order_line):
             order.action_confirm()
 
-        return {'success': True}
+        # back to the order list view
+        result = {'success': True, 'message': '配对成功', 'order_id': order.id}
+        return request.make_response(
+            json.dumps(result),
+            headers=[('Content-Type', 'application/json')]
+        )

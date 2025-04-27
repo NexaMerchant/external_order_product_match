@@ -33,12 +33,13 @@ class SaleOrder(models.Model):
                 sku = line.external_sku or ''
                 qty = line.quantity or 0
                 price = line.price_unit or 0
-                product = line.product_id.display_name if line.product_id else ''
+                product = line.product_id.default_code if line.product_id else ''
                 match_link = ''
                 if not line.confirmed:
                     match_link = (
-                        f'<a href="/match_product?order_id={order.id}&external_order_line_id={line.id}" '
-                        f'style="color:blue;text-decoration:underline;float:left;" target="_blank">配对</a>'
+                        f'<button type="button" class="btn btn-link btn-sm match-btn" '
+                        f'data-order-id="{order.id}" data-external-order-line-id="{line.id}" '
+                        f'style="color:blue;text-decoration:underline;padding:0;">配对</button>'
                     )
                 summary.append(
                     f'<div style="margin-bottom:2px;">'
