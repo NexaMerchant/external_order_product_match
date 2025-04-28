@@ -29,7 +29,7 @@
                                         // back to the previous page after 2 seconds
                                         setTimeout(function() {
                                             // redirect to the sale order list page
-                                            window.location.href = "/web#action=sale.action_quotations&amp;model=sale.order&amp;view_type=list&amp;cids=1&amp;menu_id=178"; // Replace with your desired URL
+                                            window.location.href = "/web#action=296&amp;model=sale.order&amp;view_type=list&amp;cids=1&amp;menu_id=178"; // Replace with your desired URL
                                             
                                         }, 2000);
                                     } else {
