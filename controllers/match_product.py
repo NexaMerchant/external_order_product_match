@@ -73,6 +73,8 @@ class MatchProductController(http.Controller):
 
         # if the order external_order_line allow to be confirmed, confirm the order
         if order.external_order_line_ids.filtered(lambda l: l.confirmed):
+            # set the shipping state to 
+            order.shipping_status = "draft"
             order.action_confirm()
 
         # back to the order list view
