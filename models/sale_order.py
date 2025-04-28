@@ -44,7 +44,6 @@ class SaleOrder(models.Model):
                     )
                 summary.append(
                     f'<div style="margin-bottom:2px;">'
-                    f'{img_html}'
                     f'<span style="color:#888;">SKU: {sku}<br/>'
                     f'数量: {qty} <br/>'
                     f'价格：{price:.2f}<br/>'
