@@ -1,0 +1,73 @@
+<odoo>
+
+    <!-- tree 视图 -->
+    <record id="view_sale_order_purchase_report_tree" model="ir.ui.view">
+        <field name="name">sale.order.purchase.report.tree</field>
+        <field name="model">sale.order.purchase.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <button name="export_to_excel"
+                            string="导出Excel"
+                            type="object"
+                            class="btn-secondary"/>
+                </header>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="group_by"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_sale_order_purchase_report_form" model="ir.ui.view">
+        <field name="name">sale.order.purchase.report.form</field>
+        <field name="model">sale.order.purchase.report</field>
+        <field name="arch" type="xml">
+            <form string="销售订单采购需求">
+                <sheet>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="group_by"/>
+                        <footer>
+                            <button string="生成报表" type="object" name="action_generate_report" class="btn-primary"/>
+                            <button string="关闭" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_order_purchase_report_form" model="ir.actions.act_window">
+        <field name="name">新建销售订单采购需求</field>
+        <field name="res_model">sale.order.purchase.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sale_order_purchase_report_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_sale_order_purchase_report_tree" model="ir.actions.act_window">
+        <field name="name">销售订单采购需求</field>
+        <field name="res_model">sale.order.purchase.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_sale_order_purchase_report_tree"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_purchase_report_root"
+              name="采购报表"
+              parent="purchase.menu_purchase_root"
+              sequence="90"/>
+
+    <menuitem id="menu_sale_order_purchase_report_form"
+              name="新建销售订单采购需求"
+              parent="menu_purchase_report_root"
+              action="action_sale_order_purchase_report_form"
+              sequence="10"/>
+    <menuitem id="menu_sale_order_purchase_report_tree"
+              name="销售订单采购需求"
+              parent="menu_purchase_report_root"
+              action="action_sale_order_purchase_report_tree"
+              sequence="10"/>
+</odoo>

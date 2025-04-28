@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Handle unmatched SKU in external orders with manual mapping and auto learning',
     'category': 'Sales',
-    'depends': ['sale', 'stock', 'product'],
+    'depends': ['sale', 'stock', 'product','purchase'],
     'author': 'Steve Liu',
     'website': 'https://github.com/NexaMerchant/external_order_product_match',
     'description': """
@@ -16,6 +16,7 @@
         'views/external_order_line_views.xml',
         'views/sale_order_views.xml',
         'views/match_product_template.xml',
+        'views/sale_order_purchase_report_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

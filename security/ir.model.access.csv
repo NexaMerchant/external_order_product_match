@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_external_order_line,access_external_order_line,model_external_order_line,,1,1,1,1
 access_external_sku_mapping,access_external_sku_mapping,model_external_sku_mapping,,1,1,1,1
+access_sale_order_purchase_report_user,sale.order.purchase.report,model_sale_order_purchase_report,,1,1,1,0
+access_sale_order_purchase_report_line_user,sale.order.purchase.report.line,model_sale_order_purchase_report_line,,1,1,1,0
