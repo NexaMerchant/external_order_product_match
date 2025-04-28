@@ -25,15 +25,9 @@ class MatchProductController(http.Controller):
 
     @http.route('/do_match_product', type='http', auth='user', method=['post'], csrf=False)
     def do_match_product(self, order_id=None, external_order_line_id=None, product_id=None, **kwargs):
-        print("do_match_product")
-        print("order_id:", order_id)
-        print("product_id:", product_id)
-        print("external_order_line_id:", external_order_line_id)
         order = request.env['sale.order'].sudo().browse(int(order_id))
         external_order_line = request.env['external.order.line'].sudo().browse(int(external_order_line_id))
-        print("order_id:", order_id)
-        print("external_order_line_id:", external_order_line_id)
-        print("product_id:", product_id)
+
         if product_id:
             product = request.env['product.product'].sudo().browse(int(product_id))
             external_order_line.product_id = product.id
@@ -76,6 +70,9 @@ class MatchProductController(http.Controller):
             # set the shipping state to 
             order.shipping_status = "draft"
             order.action_confirm()
+
+        # search all external_order_line with the same product_id
+
 
         # back to the order list view
         result = {'success': True, 'message': '配对成功', 'order_id': order.id}
