@@ -55,7 +55,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="menu_purchase_report_root"
+    <!-- <menuitem id="menu_purchase_report_root"
               name="采购报表"
               parent="purchase.menu_purchase_root"
               sequence="90"/>
@@ -69,5 +69,5 @@
               name="销售订单采购需求"
               parent="menu_purchase_report_root"
               action="action_sale_order_purchase_report_tree"
-              sequence="10"/>
+              sequence="10"/> -->
 </odoo>
