@@ -11,6 +11,7 @@ class ExternalOrderLine(models.Model):
     quantity = fields.Float('数量')
     price_unit = fields.Float('单价')
     images = fields.Text('图片')
+    images_binary = fields.Binary('图片二进制', attachment=True)
     product_type = fields.Char('商品类型')
     product_url = fields.Char('商品链接')
     discount_amount = fields.Float('折扣金额')
