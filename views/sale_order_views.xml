@@ -25,4 +25,16 @@
             </header>
         </field>
     </record>
+
+     <record id="view_sales_order_filter_inherit_external_product" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.external.product</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="external_order_line_ids" string="外部商品信息"
+                       filter_domain="['|', ('external_order_line_ids.external_sku', 'ilike', self), ('external_order_line_ids.external_name', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
