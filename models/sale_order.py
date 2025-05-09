@@ -8,7 +8,11 @@ class SaleOrder(models.Model):
         'external.order.line', 'sale_order_id', string='商品'
     )
 
-    external_order_line_summary = fields.Text(compute="_compute_external_summary")
+    external_order_line_summary = fields.Html(
+       compute="_compute_external_summary",
+       string="外部商品汇总",
+       sanitize=False,
+    )
 
     @api.depends(
         'external_order_line_ids.confirmed',
@@ -22,11 +26,15 @@ class SaleOrder(models.Model):
     def _compute_external_summary(self):
         for order in self:
             summary = []
-            for line in order.external_order_line_ids:
+            for line in order.external_order_line_ids.sudo():
                 # 图片展示
-                img_html = ''
-                if line.images:
-                    img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;"/>'
+                # img_html = ''
+                # img_url = f'/web/image/external.order.line/{line.id}/images'
+                img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;"/>'
+                # img_html = (
+                #     f'<img src="{img_url}" '
+                #     f'style="height:80px;width:80px;vertical-align:middle;"/>'
+                # )
                 # 商品名、SKU、数量、价格、状态
                 status = "✅" if line.confirmed else "❌"
                 name = line.external_name or ''
@@ -44,6 +52,7 @@ class SaleOrder(models.Model):
                     )
                 summary.append(
                     f'<div style="margin-bottom:2px;">'
+                    f'{img_html}'
                     f'<span style="color:#888;">SKU: {sku}<br/>'
                     f'数量: {qty} <br/>'
                     f'价格：{price:.2f}<br/>'
