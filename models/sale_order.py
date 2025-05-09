@@ -36,19 +36,19 @@ class SaleOrder(models.Model):
                 quantity = line.quantity or 0
 
                 odoo_product_info_html = ''
-                stock_status_html = '<div style="font-size:12px;color:#888;">Odoo库存: N/A</div>'
+                stock_status_html = '<div style="font-size:12px;color:#888;">ERP库存: N/A</div>'
 
                 if line.product_id:
                     product = line.product_id
                     odoo_product_sku = product.default_code or 'N/A'
                     odoo_product_name = product.name or ''
-                    odoo_product_info_html = f'<div style="font-size:12px;color:#888;">Odoo商品: {odoo_product_name} (SKU: {odoo_product_sku})</div>'
+                    odoo_product_info_html = f'<div style="font-size:12px;color:#888;">ERP商品: {odoo_product_name} (SKU: {odoo_product_sku})</div>'
                     
                     is_out_of_stock = product.qty_available < line.quantity
                     stock_status_text = '<span style="color:red;">缺货</span>' if is_out_of_stock else '<span style="color:green;">有货</span>'
-                    stock_status_html = f'<div style="font-size:12px;">Odoo库存: {stock_status_text} (可用: {product.qty_available:.0f})</div>'
+                    stock_status_html = f'<div style="font-size:12px;">ERP库存: {stock_status_text} (可用: {product.qty_available:.0f})</div>'
                 else:
-                    odoo_product_info_html = '<div style="font-size:12px;color:#888;">Odoo商品: 未配对</div>'
+                    odoo_product_info_html = '<div style="font-size:12px;color:#888;">ERP商品: 未配对</div>'
 
                 match_status_icon = "✅ 已配对" if line.confirmed else "❌ 未配对"
                 match_link_html = ''
