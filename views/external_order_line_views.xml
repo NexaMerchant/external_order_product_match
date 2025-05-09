@@ -95,6 +95,24 @@
         </field>
     </record>
 
+    <!-- external.sku.mapping search 视图 -->
+    <record id="view_external_sku_mapping_search" model="ir.ui.view">
+        <field name="name">external.sku.mapping.search</field>
+        <field name="model">external.sku.mapping</field>
+        <field name="arch" type="xml">
+            <search string="Search External SKU Mapping">
+                <field name="external_sku" string="外部SKU"/>
+                <field name="product_id" string="ERP商品"/>
+                <separator/>
+                <filter string="已关联ERP商品" name="mapped_to_product" domain="[('product_id', '!=', False)]"/>
+                <filter string="未关联ERP商品" name="not_mapped_to_product" domain="[('product_id', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="ERP商品" name="groupby_product" domain="[]" context="{'group_by':'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <!-- external.sku.mapping 动作 -->
     <record id="action_external_sku_mapping" model="ir.actions.act_window">
         <field name="name">外部SKU映射</field>
