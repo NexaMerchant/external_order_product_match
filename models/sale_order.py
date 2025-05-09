@@ -25,45 +25,62 @@ class SaleOrder(models.Model):
     )
     def _compute_external_summary(self):
         for order in self:
-            summary = []
+            summary_html = ''
             for line in order.external_order_line_ids.sudo():
-                # 图片展示
-                # img_html = ''
+                # 图片URL，假设 'images_binary' 是 external.order.line 模型中存储图片二进制数据的字段名
                 img_url = f'/web/image/external.order.line/{line.id}/images_binary'
-                # img_html = f'<img src="data:image/png;base64,{line.images.decode() if isinstance(line.images, bytes) else line.images}" style="height:80px;width:80px;vertical-align:middle;"/>'
-                img_html = (
-                    f'<img src="{img_url}" '
-                    f'style="height:80px;width:80px;vertical-align:middle;"/>'
-                )
-                # 商品名、SKU、数量、价格、状态
-                status = "✅" if line.confirmed else "❌"
-                name = line.external_name or ''
-                sku = line.external_sku or ''
-                qty = line.quantity or 0
-                price = line.price_unit or 0
-                product = line.product_id.default_code if line.product_id else ''
-                stock_qty = line.product_id.qty_available if line.product_id else 0
-                match_link = ''
+                
+                external_sku = line.external_sku or ''
+                external_name = line.external_name or ''
+                price = line.price_unit or 0.0
+                quantity = line.quantity or 0
+
+                odoo_product_info_html = ''
+                stock_status_html = '<div style="font-size:12px;color:#888;">Odoo库存: N/A</div>'
+
+                if line.product_id:
+                    product = line.product_id
+                    odoo_product_sku = product.default_code or 'N/A'
+                    odoo_product_name = product.name or ''
+                    odoo_product_info_html = f'<div style="font-size:12px;color:#888;">Odoo商品: {odoo_product_name} (SKU: {odoo_product_sku})</div>'
+                    
+                    is_out_of_stock = product.qty_available < line.quantity
+                    stock_status_text = '<span style="color:red;">缺货</span>' if is_out_of_stock else '<span style="color:green;">有货</span>'
+                    stock_status_html = f'<div style="font-size:12px;">Odoo库存: {stock_status_text} (可用: {product.qty_available:.0f})</div>'
+                else:
+                    odoo_product_info_html = '<div style="font-size:12px;color:#888;">Odoo商品: 未配对</div>'
+
+                match_status_icon = "✅ 已配对" if line.confirmed else "❌ 未配对"
+                match_link_html = ''
                 if not line.confirmed:
-                    match_link = (
+                    match_link_html = (
                         f'<button type="button" class="btn btn-link btn-sm match-btn" '
                         f'data-order-id="{order.id}" data-external-order-line-id="{line.id}" '
-                        f'style="color:blue;text-decoration:underline;padding:0;">配对</button>'
+                        f'style="color:blue;text-decoration:underline;padding:0;font-size:12px;margin-left:5px;">配对</button>'
                     )
-                summary.append(
-                    f'<div style="margin-bottom:2px;">'
-                    f'{img_html}'
-                    f'<span style="color:#888;">SKU: {sku}<br/>'
-                    f'数量: {qty} <br/>'
-                    f'价格：{price:.2f}<br/>'
-                    f'配对: {product} <br/>'
-                    f'库存: {stock_qty}</span> '
-                    f'{status}'
-                    # add matching link
-                    f'{match_link}'
-                    f'</div>'
-                )
-            order.external_order_line_summary = ''.join(summary)
+
+                summary_html += '<table style="width:100%; border-collapse: collapse; margin-bottom: 5px; border: 1px solid #ddd;">'
+                summary_html += '<tr>'
+                
+                # Image cell
+                summary_html += '<td style="width: 70px; padding: 5px; vertical-align: top; text-align: center;">'
+                summary_html += f'<img src="{img_url}" style="height:60px;width:60px;border:1px solid #ccc;" alt="商品图片"/>'
+                summary_html += '</td>'
+                
+                # Details cell
+                summary_html += '<td style="padding: 5px; vertical-align: top;">'
+                #summary_html += f'<div style="font-size:13px;color:#333;font-weight:bold;">外部商品名: {external_name}</div>'
+                summary_html += f'<div style="font-size:12px;color:#888;">外部SKU: {external_sku}</div>'
+                summary_html += f'<div style="font-size:12px;color:#888;">价格: {price:.2f} / 数量: {quantity:.0f}</div>'
+                summary_html += odoo_product_info_html
+                summary_html += stock_status_html
+                summary_html += f'<div style="font-size:12px;">配对状态: {match_status_icon}{match_link_html}</div>'
+                summary_html += '</td>'
+                
+                summary_html += '</tr>'
+                summary_html += '</table>'
+            
+            order.external_order_line_summary = summary_html
 
     def action_open_unmatched_lines(self):
         return {
