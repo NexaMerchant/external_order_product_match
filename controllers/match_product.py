@@ -14,7 +14,7 @@ class MatchProductController(http.Controller):
         domain = []
         if search:
             domain = ['|', ('default_code', 'ilike', search), ('name', 'ilike', search)]
-        products = request.env['product.product'].sudo().search(domain, limit=20)
+        products = request.env['product.product'].sudo().search(domain, limit=100)
 
         return request.render('external_order_product_match.match_product_template', {
             'order': order,
