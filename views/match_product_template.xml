@@ -56,7 +56,16 @@
                                 <strong>SKU：</strong>
                                 <span class="text-info mx-2"><t t-esc="external_order_line.external_sku"/></span>
                                 <t t-if="external_order_line.images">
-                                    <img t-att-src="'data:image/png;base64,%s' % (external_order_line.images.decode() if isinstance(external_order_line.images, bytes) else external_order_line.images)" style="height:40px;max-width:40px;border-radius:4px;margin-left:16px;"/>
+                                    <img t-att-src="'data:image/png;base64,%s' % (external_order_line.images.decode() if isinstance(external_order_line.images, bytes) else external_order_line.images)" style="height:128px;max-width:128px;border-radius:4px;margin-left:16px;"/>
+                                </t>
+                                
+                            </div>
+                            <div class="mb-3 d-flex align-items-center">
+                                <t t-if="external_order_line.product_url">
+                                    <strong>产品链接：</strong>
+                                    <span class="text-info mx-2">
+                                        <a t-att-href="external_order_line.product_url" target="_blank"><t t-esc="external_order_line.product_url"/></a>
+                                    </span>
                                 </t>
                             </div>
                             <form method="get" action="/match_product" class="row g-2 mb-3">
@@ -85,7 +94,7 @@
                                         <t t-foreach="products" t-as="product">
                                             <tr>
                                                 <td>
-                                                    <img t-if="product.image_128" t-att-src="'data:image/png;base64,%s' % product.image_128.decode()" style="height:40px;max-width:40px;border-radius:4px;"/>
+                                                    <img t-if="product.image_128" t-att-src="'data:image/png;base64,%s' % product.image_128.decode()" style="height:128px;max-width:128px;border-radius:4px;"/>
                                                 </td>
                                                 <td><t t-esc="product.display_name"/></td>
                                                 <td><span class="badge bg-secondary"><t t-esc="product.default_code"/></span></td>
