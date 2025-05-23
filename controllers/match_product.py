@@ -66,10 +66,10 @@ class MatchProductController(http.Controller):
             order_line.name = external_order_line.external_name
 
         # if the order external_order_line allow to be confirmed, confirm the order
-        if order.external_order_line_ids.filtered(lambda l: l.confirmed):
-            # set the shipping state to 
-            order.shipping_status = "draft"
-            order.action_confirm()
+        # if order.external_order_line_ids.filtered(lambda l: l.confirmed):
+        #     # set the shipping state to 
+        #     order.shipping_status = "draft"
+        #     order.action_confirm()
 
         # search all external_order_line with the same product_id
 
