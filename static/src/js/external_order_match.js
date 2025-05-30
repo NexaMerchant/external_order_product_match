@@ -1,3 +1,4 @@
+/** @odoo-module **/
 odoo.define('external_order_product_match.external_order_match', function (require) {
     "use strict";
     var core = require('web.core');
@@ -12,7 +13,7 @@ odoo.define('external_order_product_match.external_order_match', function (requi
         // redirect to the match page with order_id and external_order_line_id as parameters
         var url = '/match_product?order_id=' + order_id + '&external_order_line_id=' + external_order_line_id;
         // new black window
-        window.open(url, '_blank');
-        //window.location.href = url;
+        //window.open(url, '_blank');
+        window.location.href = url;
     });
 });
